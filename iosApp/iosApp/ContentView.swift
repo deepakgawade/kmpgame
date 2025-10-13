@@ -19,7 +19,7 @@ extension ContentView{
     class ViewModel: ObservableObject{
         @Published var greetings: Array<String> = []
 
-        func startObserving(){
+        func startObserving() async{
             do {
                 let sequence = asyncSequence(for: Greeting().greet())
                 for try await phrase in sequence {
@@ -45,6 +45,6 @@ struct ListView: View{
 }
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(viewModel: .init())
     }
 }

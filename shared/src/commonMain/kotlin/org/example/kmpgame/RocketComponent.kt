@@ -49,7 +49,8 @@ class RocketComponent {
 
     private suspend fun getAllUsers(): List<User> {
         val users: List<User> = try {
-            httpClient.get("http://10.0.2.2/users").body()
+            //httpClient.get("http://10.0.2.2/users").body()
+            httpClient.get("http://192.168.1.103/users").body()
         } catch (e: Exception) {
             println("Exception during getting the date of the last successful launch $e")
             emptyList()
@@ -58,11 +59,17 @@ class RocketComponent {
     }
      suspend fun createUsers(user:User): User? {
         return  try {
-            httpClient.post("http://10.0.2.2/users"){
+//            httpClient.post("http://10.0.2.2/users"){
+//                contentType(ContentType.Application.Json)
+//                setBody(user)
+//            }.body()
+            httpClient.post("http://192.168.1.103/users"){
                 contentType(ContentType.Application.Json)
                 setBody(user)
             }.body()
         } catch (e: Exception) {
+            log("MainViewmodel","In RocketComponent $e")
+
             println("Failed to create user $e")
        null }
     }

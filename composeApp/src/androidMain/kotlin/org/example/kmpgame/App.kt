@@ -47,7 +47,7 @@ fun App(mainViewModel: MainViewModel = viewModel()) {
             paddingValues ->
             NavHost(
                 navController = navController,
-                startDestination = Routes.HOME,
+                startDestination = Routes.SIGN_UP,
                 modifier = Modifier.fillMaxSize().padding(paddingValues)
             ) {
                 composable(Routes.HOME){

@@ -1,5 +1,7 @@
 package org.example.kmpgame
 
+import android.R.attr.tag
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,10 +32,13 @@ class MainViewModel : ViewModel() {
     }
 
     fun onCreateUserClick(name: String, email: String) {
+        Log.e("MainViewmodel","$name, $email")
         viewModelScope.launch {
             _isLoading.value = true
+            Log.e("MainViewmodel","$name, $email")
             try {
                 val user = Greeting().createUser(name, email)
+                Log.e("MainViewmodel","Our user, $user")
 
                 if (user != null) {
                     _greetingList.update { list ->
@@ -47,7 +52,7 @@ class MainViewModel : ViewModel() {
                     }
                 }
             } catch (e: Exception) {
-
+                Log.e("MainViewmodel"," excepion $e")
             } finally {
                 _isLoading.value = false
             }

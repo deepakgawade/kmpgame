@@ -25,6 +25,7 @@ class Greeting {
 
     @NativeCoroutines
     suspend fun createUser(name: String, email:String):User?{
+        log("MainViewmodel","In Greeting $name $email")
         val user=User(name = name,email=email)
         return rocketComponent.createUsers(user)
     }

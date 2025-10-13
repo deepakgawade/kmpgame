@@ -15,6 +15,7 @@ fun HomeScreen (
     Column(){
         Text("Welcome to the App")
         Spacer(modifier = Modifier.height(16.dp))
+
         Button(onClick=onNavigateToSignUp){
             Text("Go to sign up")
         }
