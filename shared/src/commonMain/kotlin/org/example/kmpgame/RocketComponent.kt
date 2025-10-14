@@ -50,7 +50,7 @@ class RocketComponent {
     private suspend fun getAllUsers(): List<User> {
         val users: List<User> = try {
             //httpClient.get("http://10.0.2.2/users").body()
-            httpClient.get("http://192.168.1.103/users").body()
+            httpClient.get("http://localhost/users").body()
         } catch (e: Exception) {
             println("Exception during getting the date of the last successful launch $e")
             emptyList()
@@ -59,11 +59,15 @@ class RocketComponent {
     }
      suspend fun createUsers(user:User): User? {
         return  try {
-//            httpClient.post("http://10.0.2.2/users"){
+//            httpClient.post("http://10.0.2.2/users"){  ///android emulator
 //                contentType(ContentType.Application.Json)
 //                setBody(user)
 //            }.body()
-            httpClient.post("http://192.168.1.103/users"){
+//            httpClient.post("http://192.168.1.103/users"){ //android physical
+//                contentType(ContentType.Application.Json)
+//                setBody(user)
+//            }.body()
+            httpClient.post("http://localhost/users"){ //ios emulator
                 contentType(ContentType.Application.Json)
                 setBody(user)
             }.body()

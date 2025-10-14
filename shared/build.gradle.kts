@@ -2,12 +2,14 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     kotlin("plugin.serialization") version "2.2.20"
     id("com.google.devtools.ksp")
     id("com.rickclephas.kmp.nativecoroutines")
+    id("jacoco")
 
 }
 
@@ -58,6 +60,7 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation("io.ktor:ktor-client-mock:$ktorVersion") // Use your ktorVersion
         }
     }
 }
@@ -72,4 +75,32 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+}
+
+tasks.withType<Test>().configureEach {
+    if(name == "testDebugUnitTest"){
+        configure<JacocoTaskExtension>{
+            isIncludeNoLocationClasses = true
+            excludes = listOf("jdk.internal.*")
+        }
+    }
+}
+
+tasks.register<JacocoReport>("sharedJacocoReport"){
+    dependsOn("testDebugUnitTest")
+    group = "verification"
+    description = "Generate Jacoco code coverage for the shared module."
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+    val sourceDirs = files("src/commonMain/kotlin")
+    val classesDirs = fileTree("$buildDir/classes/kotlin/jvm/main"){
+        exclude("**/R.class", "**/R$*.class", "**/BuildConfig.*", "**/Manifest*.*")
+    }
+    sourceDirectories.setFrom(sourceDirs)
+    classDirectories.setFrom(classesDirs)
+    executionData.setFrom(fileTree(buildDir){
+        include("jacoco/testDebugUnitTest.exec")
+    })
 }
