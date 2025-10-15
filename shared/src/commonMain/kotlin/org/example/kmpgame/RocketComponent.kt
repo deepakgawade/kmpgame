@@ -3,7 +3,6 @@ package org.example.kmpgame
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -16,9 +15,9 @@ import kotlinx.serialization.json.Json
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
-class RocketComponent {
+class RocketComponent(mockClient: HttpClient?) {
 
-    private val httpClient = HttpClient {
+    private val httpClient = mockClient?: HttpClient {
         install(ContentNegotiation) {
             json(Json {
                 isLenient = true
@@ -47,11 +46,13 @@ class RocketComponent {
             "Error occurred"
         }
 
-    private suspend fun getAllUsers(): List<User> {
+     suspend fun getAllUsers(): List<User> {
         val users: List<User> = try {
             //httpClient.get("http://10.0.2.2/users").body()
             httpClient.get("http://localhost/users").body()
         } catch (e: Exception) {
+            println("$e")
+           // log("MainViewModel", "$e")
             println("Exception during getting the date of the last successful launch $e")
             emptyList()
         }

@@ -61,6 +61,7 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation("io.ktor:ktor-client-mock:$ktorVersion") // Use your ktorVersion
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
         }
     }
 }

@@ -9,7 +9,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class Greeting {
     private val platform = getPlatform()
-    private val rocketComponent = RocketComponent()
+    private val rocketComponent = RocketComponent(null)
 
 
     @NativeCoroutines
