@@ -9,4 +9,9 @@ class SharedCommonTest {
     fun example() {
         assertEquals(3, 1 + 2)
     }
+
+    @Test
+    fun testDemonstrateInlineFunctions(){
+        demonstrateInlineFunctions()
+    }
 }
